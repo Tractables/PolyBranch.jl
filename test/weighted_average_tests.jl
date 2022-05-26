@@ -2,6 +2,10 @@ using Test
 using PolyBranch: gen_polybr_f
 using IfElse
 
+# we would like control flow to be polymorphic, 
+# for example to let `AbstractFloat` guards take the weighted average of both branches
+IfElse.ifelse(guard::AbstractFloat, then, elze) = guard*then + (1-guard)*elze
+
 @testset "weighted average if-then-else" begin
     
     # a function with control flow
@@ -16,10 +20,6 @@ using IfElse
 
     # control flow depending on `Bool`` guards works by default
     @test foo(true, 0.1) ≈ 0.45
-
-    # we would like control flow to be polymorphic, 
-    # for example to let `AbstractFloat` guards take the weighted average of both branches
-    IfElse.ifelse(guard::AbstractFloat, then, elze) = guard*then + (1-guard)*elze
 
     # control flow depending on such `AbstractFloat` guards is not polymorphic by default
     @test_throws TypeError foo(0.9, 0.1) # ERROR: TypeError: non-boolean (Float64) used in boolean context
