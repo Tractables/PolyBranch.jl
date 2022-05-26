@@ -1,0 +1,7 @@
+name = "PolyBr"
+uuid = "3c307872-14e4-494b-abb3-fed68641e9b4"
+authors = ["Guy Van den Broeck <guyvdb@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+IRTools = "7869d1d1-7146-5819-86e3-90919afe41df"
