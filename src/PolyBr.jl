@@ -1,6 +1,9 @@
 module PolyBr
 
+using IRTools
 using IRTools: blocks, block!, IR, argument!, return!, xcall, isconditional, Branch, arguments
+
+using IfElse
 
 "Utility to translate between caller and function/block argument lists"
 function mapvars(block)
