@@ -1,4 +1,4 @@
-name = "PolyBr"
+name = "PolyBranch"
 uuid = "3c307872-14e4-494b-abb3-fed68641e9b4"
 authors = ["Guy Van den Broeck <guyvdb@cs.ucla.edu>"]
 version = "0.1.0"

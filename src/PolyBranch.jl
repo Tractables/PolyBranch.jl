@@ -1,4 +1,4 @@
-module PolyBr
+module PolyBranch
 
 using IRTools
 using IRTools: blocks, block!, IR, argument!, return!, xcall, isconditional, Branch, arguments

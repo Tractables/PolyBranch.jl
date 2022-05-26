@@ -1,5 +1,5 @@
 using Test
-using PolyBr: gen_polybr_f
+using PolyBranch: gen_polybr_f
 using IfElse
 
 @testset "weighted average if-then-else" begin
