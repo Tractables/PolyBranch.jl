@@ -108,7 +108,12 @@ function transform(ir)
         branches = IRTools.branches(header) 
         for i=length(branches_rev):-1:1
             br = branches_rev[i]
-            br2 = Branch(lookup(br.condition), br.block+1, map(lookup, br.args))
+            br2 = if IRTools.isreturn(br)
+                # Destination block should stay 0 for returns
+                Branch(nothing, 0, map(lookup, br.args))
+            else
+                Branch(lookup(br.condition), br.block+1, map(lookup, br.args))
+            end
             push!(branches, br2)
         end
         sym, help_ir

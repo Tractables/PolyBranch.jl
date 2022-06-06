@@ -35,6 +35,26 @@ IfElse.ifelse(guard::AbstractFloat, then, elze) = guard*then + (1-guard)*elze
 
 end
 
+@testset "weighted average if-then-zero-else-seven" begin
+    function zero_or_seven(cond)
+        if cond
+            0
+        else
+            7
+        end
+    end
+    zero_or_seven2 = gen_polybr_f(typeof(zero_or_seven), Any)
+
+    # `Bool` guards still work
+    @test zero_or_seven2(true) ≈ 0
+    @test zero_or_seven2(false) ≈ 7
+
+    # `AbstractFloat`` guards now also work
+    @test zero_or_seven2(1.) ≈ 0
+    @test zero_or_seven2(0.) ≈ 7
+    @test zero_or_seven2(0.4) ≈ 0.6 * 7
+end
+
 @testset "weighted average while" begin
     
     # expected number of `true` sampled coins at start of list
