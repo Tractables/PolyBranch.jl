@@ -20,10 +20,23 @@ function mapvars(block)
     callerargs, lookup
 end
 
+"Ensure blocks end with nonconditional br/ret, adding br's to the next block if necessary."
+function no_block_fallthrough!(ir)
+    for (i, block) in enumerate(IRTools.blocks(ir))
+        branches = IRTools.branches(block)
+        if isempty(branches) || last(branches).condition !== nothing
+            @assert i < length(IRTools.blocks(ir))
+            @assert isempty(IRTools.arguments(IRTools.blocks(ir)[i + 1]))
+            push!(branches, IRTools.Branch(nothing, i + 1, Vector()))
+        end
+    end
+end
+
 "Transform IR to have polymorphic control flow and add helper function IR"
 function transform(ir)
     # ensure all cross-block variable use is through block arguments (make blocks functional)
     ir = IRTools.expand!(ir)
+    no_block_fallthrough!(ir)
     helpers = []
     # point each conditional `br`` to its polymorphism block
     for i in eachindex(blocks(ir))
